@@ -10,40 +10,35 @@ from yoinks.core.exceptions import ScriptError, UnsupportedURLError
 from yoinks.core.wrapper import Wrapper
 from yoinks.ui.screens.settings_screen import DefaultSettingsScreen
 
+TITLE = f"""
+ @@@@@@    @@@@@@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@@@@@    @@@@@@   
+@@@@@@@   @@@@@@@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@@@@@@  @@@@@@@   
+!@@       !@@       @@!  @@@  @@!  @@!  @@!  @@!  @@@  @@!  @@@  !@@       
+!@!       !@!       !@!  @!@  !@!  !@!  !@!  !@!  @!@  !@!  @!@  !@!       
+!!@@!!    !@!       @!@!@!@!  @!!  !!@  @!@  @!@  !@!  @!@@!@!   !!@@!!    
+ !!@!!!   !!!       !!!@!!!!  !@!  !!!  !@!  !@!  !!!  !!@!!!     !!@!!!   
+     !:!  :!!       !!:  !!!  !!:  !!:  !!:  !!:  !!!  !!:            !:!  
+    !:!   :!:       :!:  !:!  :!:  :!:  :!:  :!:  !:!  :!:           !:!   
+:::: ::    ::: :::  ::   :::   :::: :: :::   ::::: ::   ::       :::: ::   
+:: : :     :: :: :   :   : :    :: :  : :     : :  :    :        :: : :    
+"""
+
 
 class LinkScreen(Screen):
     """First screen: a single focused input for pasting a video link."""
 
-    DEFAULT_CSS = """
-    LinkScreen {
-        align: center middle;
-    }
-
-    #link-box {
-        width: auto;
-        height: auto;
-        border: round $primary;
-        padding: 1 2;
-    }
-
-    #url-input {
-        width: 60;
-    }
-
-    #error-label {
-        color: $error;
-    }
-    """
+    CSS_PATH = "link_screen.tcss"
 
     def __init__(self, wrapper: Wrapper) -> None:
         super().__init__()
         self._wrapper = wrapper
 
     def compose(self) -> ComposeResult:
-        with Vertical(id="link-box"):
-            yield Label("Paste a video link:")
-            yield Input(placeholder="https://...", id="url-input")
-            yield Label("", id="error-label")
+        with Vertical(id="title-box"):
+            yield Label(TITLE, id="title-label")
+            with Vertical(id="link-box"):
+                yield Input(placeholder="https://...", id="url-input")
+                yield Label("", id="error-label")
 
     def on_mount(self) -> None:
         self.query_one("#url-input", Input).focus()

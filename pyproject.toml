@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yoinks"
+version = "0.1.0"
+description = "TUI application for downloading videos from common sites"
+requires-python = ">=3.11"
+dependencies = [
+    "textual",
+    "yt-dlp",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[project.scripts]
+yoinks = "yoinks.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/yoinks"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

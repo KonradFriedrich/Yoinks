@@ -20,31 +20,7 @@ DEFAULT_DOWNLOAD_DIR = Path.home() / "Downloads"
 class DefaultSettingsScreen(Screen):
     """Default settings screen: directory, resolution, title, subtitles."""
 
-    DEFAULT_CSS = """
-    DefaultSettingsScreen {
-        align: center middle;
-    }
-
-    #settings-box {
-        width: auto;
-        height: auto;
-        border: round $primary;
-        padding: 1 2;
-    }
-
-    #settings-box Input, #settings-box Select {
-        width: 50;
-    }
-
-    #info-panel {
-        color: $text-muted;
-        margin-bottom: 1;
-    }
-
-    #status-label {
-        margin-top: 1;
-    }
-    """
+    CSS_PATH = "settings_screen.tcss"
 
     BINDINGS = [("escape", "pop_screen", "Back")]
 

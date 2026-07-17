@@ -1,0 +1,26 @@
+LinkScreen {
+    align: center middle;
+}
+
+#title-box {
+    align: center middle;
+    width: auto;
+}
+
+#link-box {
+    align: center middle;
+    width: 100w;
+    height: auto;
+    padding: 1 0;
+}
+
+#url-input {
+    width: 60;
+    border: $primary;
+    color: $foreground;
+    background: $surface;
+}
+
+#error-label {
+    color: $error;
+}
