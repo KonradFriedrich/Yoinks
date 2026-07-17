@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from yoinks.core.base import DownloaderScript
 from yoinks.core.exceptions import ScriptError, UnsupportedURLError
 from yoinks.core.models import DownloadRequest, DownloadResult, VideoInfo
@@ -25,6 +27,9 @@ class Wrapper:
             return await script_cls().download(request)
         except Exception as exc:
             raise ScriptError(script_cls.name, exc) from exc
+
+    def settings_screen_for(self, url: str) -> type[Any] | None:
+        return self._require_script(url).settings_screen
 
     def _require_script(self, url: str) -> type[DownloaderScript]:
         script_cls = self._registry.find_for_url(url)
