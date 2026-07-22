@@ -1,6 +1,6 @@
 # Schwups
 
-Schwups is a TUI based application used for downloading videos from common pages such as youtube, instagram, twitter and as many more as i can care to implement
+Schwups is a TUI based application used for downloading videos and music from as many common pages as i can care to implement
 
 ### Goals
 
@@ -28,3 +28,5 @@ Schwups is a TUI based application used for downloading videos from common pages
 - Pyinstaller to compile to .exe
 - ytdlp for downloading yt videos
 - ffmpeg for merging video parts
+
+### Default download scripts
