@@ -1,6 +1,6 @@
-import yoinks.scripts as scripts_package
-from yoinks.core.registry import registry
-from yoinks.scripts.example_script import ExampleScript
+import schwups.scripts as scripts_package
+from schwups.core.registry import registry
+from schwups.scripts.example_script import ExampleScript
 
 
 def test_discover_registers_example_script():

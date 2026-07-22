@@ -1,24 +1,11 @@
 from __future__ import annotations
 
-import asyncio
 import shutil
-from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
 
-from yt_dlp import YoutubeDL
 from yt_dlp.utils import sanitize_filename
 
-from yoinks.core.base import DownloaderScript
-from yoinks.core.models import (
-    DownloadRequest,
-    DownloadResult,
-    ResolutionField,
-    SubtitleField,
-    VideoInfo,
-)
-
-_YOUTUBE_HOSTS = {"youtube.com", "youtu.be", "music.youtube.com"}
+from schwups.core.models import AudioField, ResolutionField, VideoInfo
 
 
 class _SilentLogger:
@@ -66,8 +53,6 @@ def _estimate_size(formats: list[dict[str, Any]], height: int, ffmpeg_available:
     if video_size is None:
         return None
     if not ffmpeg_available or video.get("acodec") not in (None, "none"):
-        # Already muxed with audio (or no merge is happening), so the video
-        # format's own size is the whole download.
         return video_size
     audio_size = _format_size(_best_audio_only(formats)) or 0
     return video_size + audio_size
@@ -87,10 +72,6 @@ def _video_info_from_ytdlp(url: str, info: dict[str, Any], ffmpeg_available: boo
         f"{h}p": size for h in heights if (size := _estimate_size(formats, h, ffmpeg_available)) is not None
     }
 
-    subtitles = info.get("subtitles") or {}
-    automatic_captions = info.get("automatic_captions") or {}
-    subtitles_available = bool(subtitles.get("en")) or bool(automatic_captions.get("en"))
-
     title = info.get("title") or "Unknown title"
     return VideoInfo(
         title=title,
@@ -104,7 +85,7 @@ def _video_info_from_ytdlp(url: str, info: dict[str, Any], ffmpeg_available: boo
             estimated_size_bytes=estimated_sizes,
             available=bool(choices),
         ),
-        subtitles=SubtitleField(default=False, available=subtitles_available),
+        audio_only=AudioField(default=False, available=ffmpeg_available),
     )
 
 
@@ -114,48 +95,3 @@ def _format_selector(height: int | None, ffmpeg_available: bool) -> str:
     if ffmpeg_available:
         return f"bestvideo[height<={height}]+bestaudio/best[height<={height}]"
     return f"best[height<={height}][acodec!=none][vcodec!=none]"
-
-
-class YouTubeScript(DownloaderScript):
-    """Real YouTube downloader backed by yt-dlp."""
-
-    name = "youtube"
-
-    @classmethod
-    def can_handle(cls, url: str) -> bool:
-        host = (urlparse(url).hostname or "").removeprefix("www.").removeprefix("m.")
-        return host in _YOUTUBE_HOSTS
-
-    async def fetch_info(self, url: str) -> VideoInfo:
-        info = await asyncio.to_thread(self._extract, url)
-        return _video_info_from_ytdlp(url, info, _ffmpeg_available())
-
-    async def download(self, request: DownloadRequest) -> DownloadResult:
-        result_info = await asyncio.to_thread(self._run_download, request)
-        filepath = result_info.get("requested_downloads", [{}])[0].get("filepath")
-        return DownloadResult(success=True, file_path=Path(filepath) if filepath else None)
-
-    def _extract(self, url: str) -> dict[str, Any]:
-        with YoutubeDL(_base_ytdlp_opts()) as ydl:
-            return ydl.extract_info(url, download=False)
-
-    def _run_download(self, request: DownloadRequest) -> dict[str, Any]:
-        request.destination_dir.mkdir(parents=True, exist_ok=True)
-        ffmpeg_available = _ffmpeg_available()
-        height = int(request.resolution[:-1]) if request.resolution and request.resolution.endswith("p") else None
-
-        opts = _base_ytdlp_opts()
-        opts["format"] = _format_selector(height, ffmpeg_available)
-        opts["outtmpl"] = str(request.destination_dir / f"{sanitize_filename(request.filename)}.%(ext)s")
-        if ffmpeg_available:
-            opts["merge_output_format"] = "mp4"
-        if request.download_subtitles:
-            opts.update(
-                writesubtitles=True,
-                writeautomaticsub=True,
-                subtitleslangs=["en"],
-                subtitlesformat="srt",
-            )
-
-        with YoutubeDL(opts) as ydl:
-            return ydl.extract_info(request.url, download=True)

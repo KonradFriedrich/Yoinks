@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from yoinks.core.base import DownloaderScript
-from yoinks.core.exceptions import ScriptError, UnsupportedURLError
-from yoinks.core.models import DownloadRequest, DownloadResult, VideoInfo
-from yoinks.core.registry import ScriptRegistry
+from schwups.core.base import DownloaderScript
+from schwups.core.exceptions import ScriptError, UnsupportedURLError
+from schwups.core.models import DownloadRequest, DownloadResult, VideoInfo
+from schwups.core.registry import ScriptRegistry
 
 
 class Wrapper:

@@ -3,14 +3,14 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, ClassVar
 
-from yoinks.core.models import DownloadRequest, DownloadResult, VideoInfo
-from yoinks.core.registry import registry
+from schwups.core.models import DownloadRequest, DownloadResult, VideoInfo
+from schwups.core.registry import registry
 
 
 class DownloaderScript(ABC):
     """Base class for a per-site download script.
 
-    Subclassing this (anywhere under `yoinks.scripts`) automatically
+    Subclassing this (anywhere under `schwups.scripts`) automatically
     registers the script with the global registry — no decorator needed.
     """
 

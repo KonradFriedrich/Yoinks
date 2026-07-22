@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 
 @dataclass
@@ -19,8 +21,12 @@ class ResolutionField:
 
 
 @dataclass
-class SubtitleField:
-    """Subtitle download setting for the default settings screen."""
+class AudioField:
+    """'Download as MP3' setting for the default settings screen.
+
+    `available=False` greys the checkbox out (e.g. when ffmpeg is missing
+    or the content is already audio and no conversion is needed/supported).
+    """
 
     default: bool = False
     available: bool = True
@@ -34,7 +40,7 @@ class VideoInfo:
     thumbnail_url: str | None = None
     default_filename: str = ""
     resolution: ResolutionField = field(default_factory=ResolutionField)
-    subtitles: SubtitleField = field(default_factory=SubtitleField)
+    audio_only: AudioField = field(default_factory=AudioField)
 
 
 @dataclass
@@ -43,7 +49,8 @@ class DownloadRequest:
     destination_dir: Path
     filename: str
     resolution: str | None = None
-    download_subtitles: bool = False
+    audio_only: bool = False
+    progress_hook: Callable[[dict[str, Any]], None] | None = None
 
 
 @dataclass

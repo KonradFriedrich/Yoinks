@@ -6,7 +6,7 @@ from types import ModuleType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from yoinks.core.base import DownloaderScript
+    from schwups.core.base import DownloaderScript
 
 
 class ScriptRegistry:
@@ -29,7 +29,7 @@ class ScriptRegistry:
         """Import every module in `package` so scripts self-register.
 
         `package` must be a regular (non-namespace) package, e.g. the
-        `yoinks.scripts` module.
+        `schwups.scripts` module.
         """
         for module_info in pkgutil.iter_modules(package.__path__, prefix=f"{package.__name__}."):
             importlib.import_module(module_info.name)

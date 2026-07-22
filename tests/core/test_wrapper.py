@@ -2,11 +2,11 @@ from pathlib import Path
 
 import pytest
 
-import yoinks.scripts as scripts_package
-from yoinks.core.exceptions import UnsupportedURLError
-from yoinks.core.models import DownloadRequest
-from yoinks.core.registry import registry
-from yoinks.core.wrapper import Wrapper
+import schwups.scripts as scripts_package
+from schwups.core.exceptions import UnsupportedURLError
+from schwups.core.models import DownloadRequest
+from schwups.core.registry import registry
+from schwups.core.wrapper import Wrapper
 
 
 @pytest.fixture
@@ -21,7 +21,7 @@ async def test_fetch_info_returns_video_info_with_fixed_fields(wrapper: Wrapper)
     assert info.title == "Example Video"
     assert info.resolution.choices == ["1080p", "720p", "480p"]
     assert info.resolution.available is True
-    assert info.subtitles.available is False
+    assert info.audio_only.available is False
 
 
 async def test_fetch_info_raises_for_unsupported_url(wrapper: Wrapper):
@@ -35,7 +35,7 @@ async def test_download_returns_successful_result(wrapper: Wrapper, tmp_path: Pa
         destination_dir=tmp_path,
         filename="my-clip",
         resolution="720p",
-        download_subtitles=False,
+        audio_only=False,
     )
 
     result = await wrapper.download(request)

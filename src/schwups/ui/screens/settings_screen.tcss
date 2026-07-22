@@ -1,0 +1,49 @@
+DefaultSettingsScreen {
+    align: center middle;
+}
+
+#settings-box {
+    width: auto;
+    height: auto;
+    border: $primary;
+    padding: 1 2;
+    margin: 0;
+}
+
+#settings-box Input {
+    width: 50;
+}
+
+#info-box, #video-settings-box, #resolution-box, #download-settings-box {
+    width: auto;
+    height: auto;
+}
+
+#resolution-box Label {
+    padding: 0 1;
+}
+
+#resolution-select {
+    width: 20;
+    height: 3;
+    padding: 0;
+    margin: 0;
+}
+
+#download-button {
+    background: $background;
+}
+
+#progress-bar {
+    width: 50;
+    margin-top: 1;
+}
+
+#status-label {
+    width: 50;
+    margin-top: 1;
+}
+
+.hidden {
+    display: none;
+}

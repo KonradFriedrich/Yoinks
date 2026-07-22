@@ -1,11 +1,11 @@
 from textual.widgets import Button, Checkbox, Label
 
-from yoinks.ui.app import YoinksApp
-from yoinks.ui.screens.settings_screen import DefaultSettingsScreen
+from schwups.ui.app import SchwupsApp
+from schwups.ui.screens.settings_screen import DefaultSettingsScreen
 
 
 async def test_paste_link_reaches_settings_screen_and_downloads():
-    app = YoinksApp()
+    app = SchwupsApp()
     async with app.run_test() as pilot:
         for char in "https://example.com/watch?v=abc":
             await pilot.press(char)
@@ -14,8 +14,8 @@ async def test_paste_link_reaches_settings_screen_and_downloads():
         await pilot.pause()
 
         assert isinstance(app.screen, DefaultSettingsScreen)
-        assert app.screen.query_one("#subtitles-checkbox", Checkbox).disabled is True
-        assert app.screen.query_one(Button).has_focus
+        assert app.screen.query_one("#audio-checkbox", Checkbox).disabled is True
+        assert app.screen.query_one("#download-button", Button).has_focus
 
         await pilot.press("enter")
         await app.workers.wait_for_complete()

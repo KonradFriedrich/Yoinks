@@ -2,17 +2,17 @@ from __future__ import annotations
 
 from textual.app import App
 
-import yoinks.scripts as scripts_package
-from yoinks.core.registry import registry
-from yoinks.core.wrapper import Wrapper
-from yoinks.ui.screens.link_screen import LinkScreen
-from yoinks.ui.theme import FALLBACK_THEME, build_omarchy_theme
+import schwups.scripts as scripts_package
+from schwups.core.registry import registry
+from schwups.core.wrapper import Wrapper
+from schwups.ui.screens.link_screen import LinkScreen
+from schwups.ui.theme import FALLBACK_THEME, build_omarchy_theme
 
 
-class YoinksApp(App):
+class SchwupsApp(App):
     """TUI entry point: paste a link, review settings, download."""
 
-    TITLE = "Yoinks"
+    TITLE = "Schwups"
 
     def __init__(self) -> None:
         super().__init__()

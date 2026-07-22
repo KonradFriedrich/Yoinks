@@ -3,12 +3,12 @@ from __future__ import annotations
 import asyncio
 from urllib.parse import urlparse
 
-from yoinks.core.base import DownloaderScript
-from yoinks.core.models import (
+from schwups.core.base import DownloaderScript
+from schwups.core.models import (
+    AudioField,
     DownloadRequest,
     DownloadResult,
     ResolutionField,
-    SubtitleField,
     VideoInfo,
 )
 
@@ -44,7 +44,7 @@ class ExampleScript(DownloaderScript):
                     "480p": 40_000_000,
                 },
             ),
-            subtitles=SubtitleField(default=False, available=False),  # this fake video has none
+            audio_only=AudioField(default=False, available=False),  # no MP3 option for example script
         )
 
     async def download(self, request: DownloadRequest) -> DownloadResult:

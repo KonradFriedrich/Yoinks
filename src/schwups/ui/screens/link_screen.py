@@ -6,9 +6,9 @@ from textual.containers import Vertical
 from textual.screen import Screen
 from textual.widgets import Input, Label
 
-from yoinks.core.exceptions import ScriptError, UnsupportedURLError
-from yoinks.core.wrapper import Wrapper
-from yoinks.ui.screens.settings_screen import DefaultSettingsScreen
+from schwups.core.exceptions import ScriptError, UnsupportedURLError
+from schwups.core.wrapper import Wrapper
+from schwups.ui.screens.settings_screen import DefaultSettingsScreen
 
 TITLE = f"""
  @@@@@@    @@@@@@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@@@@@    @@@@@@   

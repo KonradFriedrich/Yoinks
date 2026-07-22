@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from yoinks.ui.app import YoinksApp
+from schwups.ui.app import SchwupsApp
 
 
 def main() -> None:
-    YoinksApp().run()
+    SchwupsApp().run()
 
 
 if __name__ == "__main__":

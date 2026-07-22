@@ -13,7 +13,7 @@ OMARCHY_COLORS_PATH = Path.home() / ".config" / "omarchy" / "current" / "theme" 
 #: checkboxes that rely on a surface/panel tone distinct from the background
 #: to stay visible.
 FALLBACK_THEME = Theme(
-    name="yoinks-fallback",
+    name="schwups-fallback",
     primary="#ffffff",
     secondary="#ffffff",
     accent="#ffffff",

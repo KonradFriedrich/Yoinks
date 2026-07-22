@@ -1,6 +1,6 @@
 import pytest
 
-from yoinks.ui.formatting import format_bytes, format_duration
+from schwups.ui.formatting import format_bytes, format_duration
 
 
 @pytest.mark.parametrize(

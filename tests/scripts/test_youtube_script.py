@@ -1,8 +1,5 @@
-from yoinks.scripts.youtube_script import (
-    YouTubeScript,
-    _format_selector,
-    _video_info_from_ytdlp,
-)
+from schwups.scripts._ytdlp_helpers import _format_selector, _video_info_from_ytdlp
+from schwups.scripts.youtube_script import YouTubeScript
 
 
 def test_can_handle_accepts_youtube_url_variants():
@@ -22,8 +19,6 @@ FAKE_INFO = {
     "title": "My Video / Cool",
     "duration": 120.0,
     "thumbnail": "https://example.com/thumb.jpg",
-    "subtitles": {"en": [{"ext": "srt", "url": "..."}]},
-    "automatic_captions": {},
     "formats": [
         # storyboard sprite, must be excluded entirely
         {"format_id": "sb1", "height": 45, "vcodec": "none", "acodec": "none"},
@@ -72,15 +67,13 @@ def test_video_info_sanitizes_default_filename():
     assert "/" not in info.default_filename
 
 
-def test_video_info_subtitle_availability():
-    info = _video_info_from_ytdlp("https://youtube.com/watch?v=x", FAKE_INFO, ffmpeg_available=True)
+def test_video_info_audio_only_field():
+    info_with = _video_info_from_ytdlp("https://youtube.com/watch?v=x", FAKE_INFO, ffmpeg_available=True)
+    assert info_with.audio_only.available is True
+    assert info_with.audio_only.default is False
 
-    assert info.subtitles.available is True
-    assert info.subtitles.default is False
-
-    no_subs_info = dict(FAKE_INFO, subtitles={}, automatic_captions={})
-    info = _video_info_from_ytdlp("https://youtube.com/watch?v=x", no_subs_info, ffmpeg_available=True)
-    assert info.subtitles.available is False
+    info_without = _video_info_from_ytdlp("https://youtube.com/watch?v=x", FAKE_INFO, ffmpeg_available=False)
+    assert info_without.audio_only.available is False
 
 
 def test_format_selector_with_ffmpeg_merges_streams():

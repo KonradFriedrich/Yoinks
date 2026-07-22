@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from yoinks.ui.theme import FALLBACK_THEME, _relative_luminance, build_omarchy_theme
+from schwups.ui.theme import FALLBACK_THEME, _relative_luminance, build_omarchy_theme
 
 GRUVBOX_COLORS = """
 accent = "#7daea3"
